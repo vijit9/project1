@@ -1,7 +1,7 @@
 # Project 1, Part 3
 
-* Assigned: 3/11
-* Due:  4/15 10AM EST
+* Assigned: 10/13
+* Due:  11/15 10AM EST
 * (worth 50% of overall Project 1 grade)
 
 

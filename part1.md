@@ -1,7 +1,7 @@
 # Project 1, Part 1
 
-* Assigned: 1/28
-* Due: 2/18 10AM, digital copy
+* Assigned: 9/8
+* Due: 9/27 10AM, digital copy
 * 25% of overall Project 1 grade
 
 In Part 1, you will propose a web application to build for the rest of Project 1.  You will design the entity-relationship diagram and schema of the database, and do some setup for Part 2.
@@ -26,7 +26,7 @@ This assignment consists of multiple steps.  At a high level, you will
 1. Meet with staff for approval and feedback
 1. Revise proposal and E/R diagram, create SQL schema for the database.
 
-If you're having trouble thinking of an application, look for a real dataset to design the application around.  Some possible suggestions could be local government datasets like [NYC Open Data](https://opendata.cityofnewyork.us/), [Columbia Libraries catalog](https://library.columbia.edu/bts/clio-data.html), [Bio datasets](https://github.com/OpenGene/awesome-bio-datasets), [Political datasets](https://fivethirtyeight.com/features/why-were-sharing-3-million-russian-troll-tweets/), [Earthquake datasets](https://earthquake.usgs.gov/data/data.php), etc.  There are many small shops, galleries, communities, that could benefit from a web applications too!
+If you're having trouble thinking of an application, look for a real dataset to design the application around.  Some possible suggestions could be local government datasets like [USA Government Analytics](https://analytics.usa.gov), [data sources from USA Facts](https://usafacts.org/data-sources/), [NYC Open Data](https://opendata.cityofnewyork.us/), [sensor data](https://www.raspberrypi.org/), [USA Spending](https://www.usaspending.gov/download_center/award_data_archive), [Columbia Libraries catalog](https://library.columbia.edu/bts/clio-data.html), [Bio datasets](https://github.com/OpenGene/awesome-bio-datasets), [Political datasets](https://fivethirtyeight.com/features/why-were-sharing-3-million-russian-troll-tweets/), [Earthquake datasets](https://earthquake.usgs.gov/data/data.php), etc.  There are many small shops, galleries, communities, that could benefit from a web applications too!
 
 
 ### You Will Submit:

@@ -4,6 +4,7 @@
 * Due:  11/15 10AM EST
 * (worth 50% of overall Project 1 grade)
 
+**Update (4/1)**: We have updated the [instructions](./programming.md) for Google Cloud.
 
 In this part of the project, you will either (3a) complete the web application by building the front end
 on top of the `Flask` Python webserver, or (3b) expand your schema design.
@@ -79,7 +80,7 @@ Please leave your virtual machine running so the IP address does not change (see
 
 Students will present to their project mentor between `4/16` and `4/22`.
 
-Make an appointment with TAs [here](https://calendar.google.com/calendar/selfsched?sstoken=UUlBaFJZbUNvTmp4fGRlZmF1bHR8YzJiMGQ3OTA1NzNmMDY1YjMxYzVlNzQ5OWFjOGM5OTI).
+Make an appointment with TAs [here](https://calendar.google.com/calendar/u/0/selfsched?sstoken=UUpOU05mUUpZYXk2fGRlZmF1bHR8YmE0YmE0M2MzNzkyYWZjOTcxYjRkMTBmNDNmNjA1NDc).
 
 Contact your mentor immediately if you cannot make it by `4/16`.
 

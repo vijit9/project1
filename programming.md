@@ -33,16 +33,129 @@ such as git on [GitHub](http://www.github.com), so your team can share code. Thi
 
 
 ### Flask Python Webserver (For part 3)
-
-We will use the [Flask Python webserver](http://flask.pocoo.org/) in this course. It is a lightweight webserver that requires a minimal amount of understanding of how the webserver framework is implemented.
-
-To use it, follow the steps in [Python Flask Skeleton for Google App Engine](https://github.com/GoogleCloudPlatform/appengine-flask-skeleton) to create Python applications using the Flask framework on App Engine.
-
 We strongly recommend reading the following documentations:
 
 * [General Flask Documentation](http://flask.pocoo.org/)
 * [Jinja Templates](http://jinja.pocoo.org/docs/dev/templates/): this makes it easy to send data (e.g., arrays, dictionaries) 
   to your HTML code and dynamically render them.
+
+In part 3, we will deploy our projects on [Google Cloud Platform](https://cloud.google.com/),
+an easy-to-use cloud platform that helps us host our website.
+
+#### Step 1 Google Cloud Coupon
+1. Check if you receive a coupon code from TAs. Everyone should receive individual
+   Google cloud code that provides you with enough credits for the class.
+2. Follow this [link](https://console.cloud.google.com/education) and remember to login with
+your Lionmail account credientials.
+3. Enter your credit code.
+
+#### Step 2 Set Up Virtual Machine on GCP
+1. Go to [Google Cloud Console](console.cloud.google.com)
+2. Click on "Select a project" at the top of the page, and then click on
+"NEW PROJECT" on the right side
+   ![image info](./pictures/new_project.png)
+3. Enter a name for your project (e.g. "cs4111-Project1"), select
+   the "Billing Account for Education" as your billing account and click "CREATE"
+   ![image info](./pictures/create_project.png)
+4. Make sure that the project that you just created is selected on the top navigation bar.
+    ![image info](./pictures/check_project.png)
+5. Click on the menu button in the top left hand corner and select "Compute Engine" and then 
+"VM instances"
+6. Click "CREATE INSTANCE" and enter the name for your virtual machine (e.g. cs4111-instance)
+7. Change "Region" to "us-east1" and change "Zone" to any "us-east1-x"
+![image info](./pictures/vm_set.png)
+8. Click "CHANGE" on Boot disk. Change "Operating System" to "Ubuntu" and
+"Version" to "Ubuntu 20.04 LTS"
+   ![image info](./pictures/os.png)
+9. Change your Firewall settings to allow "HTTP" and "HTTPS" traffic.
+![image info](./pictures/firewall.png)
+10. You should now see your VM instance running. **Remember to stop your VM when
+you don't use them!**
+#### Step 3 Set Up Firewall Rules
+1. Go to VM instances interface, click that three dots menu, and select "View network details"
+![image info](./pictures/network_analysis.png)
+2. Choose "Firewall"
+3. Choose "Create Firewall Rule"
+4. Enter a name, change "Targets" to be "All instances in the network", change
+"Source IPv4 ranges" to `0.0.0.0/0`, select "Specified protocols and ports", and
+   set "tcp" to be `8111`. (Notice that if your application runs on different ports, you should
+   specify those ports here)
+![image info](./pictures/firewall_rules.png)
+5. Click "CREATE"
+6. Make sure your new firewall rule applied to your instance by clicking
+"View network details again" and select "FIREWALL RULES". You should see the
+firewall rule you just created appear there
+   ![image info](./pictures/firewall_appearance.png)
+#### Step 4 Deploy Flask Application on GCP
+Now, we are going to walk you through the process to deploy your 
+project 1 on the VM your just created.
+Suppose we already have a simple Flask application on Github that looks something
+like this.
+```
+COMS4111_Proj1/
+│   README.md
+│   requirements.txt    
+└───webserver/
+    │   server.py
+    └───static
+```
+`requirements.txt` includes all the packages we need for this project and 
+`static` directory is where we store all our static files.
+
+1. Click "SSH" to connect to your VM instance
+![image info](./pictures/ssh.png)
+
+2. Now in the command line, type the following command to clone your project on github
+onto the PythonAnywhere.
+```
+> git clone <your-github-repo-address>
+```
+3. You need to enter your github Username and generate a [Personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+to connect to your github and download your project files. If success, the bash should look something like this.
+
+![image info](./pictures/clone.png)
+
+4. We now need to set up running environment for applications. Type the following commands
+to install `pip` first.
+```
+> sudo apt-get update
+> sudo apt-get install -y python3-pip
+```
+
+5. We could now use `cd` to move to the root directory of our project. And
+type the following command. This command will automatically help us to install
+all the packages applications needed.
+```
+> pip install -r requirements.txt
+```
+If success, the bash should look something like this
+
+![image info](./pictures/pip.png)
+
+6. We have set up the environment for our Flask application. Your could run your application
+locally by typing the command.
+```
+> python3 server.py
+```
+
+If success, you should see your application running on the port `8111`
+
+![image info](./pictures/run8111.png)
+
+Your Flask application is running on virtual machine, but how could we access that?
+You should go back to your instance interface and copy "External IP" of your VM instance. 
+You should be able to access your application by entering `<External IP>:<Network Port>` in your browser. 
+In this example, the external IP is `35.196.145.30` and the running port of the application is
+`8111`. After entering that IP address on your browser, you should see your application is getting
+HTTP requests.
+
+![image info](pictures/access_8111.png)
+
+That's all! Now is the showtime!
+
+If, unfortunately, your app is not running. One thing you need to do is to check the error log
+to see what's going wrong on the sever and try to fix that. Don't hesitate to reach to TAs
+when you couldn't fix the error!
 
 ### A Short Introduction to SQLAlchemy
 
@@ -135,8 +248,11 @@ Some notes
 
 
 ### Running on the virtual machine
+You will deploy your application to PythonAnywhere. Please refer to `Flask Python Webserver` for
+step-by-step instructions on how to do that.
 
-You will deploy your application to your Google App Engine virtual machine.
+<!--
+You will deploy your application to PythonAnywhere.
 
 * [Steps to create an instance from Part2](./gcp_instructions.pdf).
 
@@ -157,7 +273,7 @@ Also, you'll need to open the firewall so you can access your web application. T
 
 5. Go to `http://<IP ADDRESS>:8111/` in your browser to check that it worked.  
    You will need this URL when presenting the project to your mentor.
-
+-->
 
 ### (Optional) Running locally
 

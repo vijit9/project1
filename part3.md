@@ -78,11 +78,11 @@ Please leave your virtual machine running so the IP address does not change (see
 
 
 
-Students will present to their project mentor between `4/16` and `4/22`.
+Students will present to their project mentor between `11/16` and `11/22`.
 
 Make an appointment with TAs [here](https://calendar.google.com/calendar/u/0/selfsched?sstoken=UUpOU05mUUpZYXk2fGRlZmF1bHR8YmE0YmE0M2MzNzkyYWZjOTcxYjRkMTBmNDNmNjA1NDc).
 
-Contact your mentor immediately if you cannot make it by `4/16`.
+Contact your mentor immediately if you cannot make it by `11/16`.
 
 You will show off your project using the mentor's web browser:
 

@@ -19,6 +19,8 @@ import os
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 from flask import Flask, request, render_template, g, redirect, Response
+import functools
+from werkzeug.security import check_password_hash, generate_password_hash
 
 tmpl_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'templates')
 app = Flask(__name__, template_folder=tmpl_dir)
@@ -121,10 +123,19 @@ def index():
   # example of a database query
   #
   name = "vijit9@gmail.com"
-  cursor = g.conn.execute("SELECT * FROM users u, board_owns b, tracks t, member m WHERE u.email= %s and u.email = b.email AND b.boardid = t.boardid AND t.memberid = m.memberid ", name)
+  cursor = g.conn.execute("SELECT * FROM users u, board_owns b, tracks t, member m, owns o, stock s WHERE u.email= %s and u.email = b.email AND b.boardid = t.boardid AND t.memberid = m.memberid and m.memberid = o.memberid AND o.symbol = s.symbol", name)
+
   names = []
   for result in cursor:
     names.append(result)  # can also be accessed using result[0]
+  cursor.close()
+
+
+  cursor = g.conn.execute("SELECT distinct * FROM users u, share sh, board_owns b, tracks t, member m, owns o, stock s WHERE u.email= %s and u.email = sh.email and sh.boardid=b.boardid AND b.boardid = t.boardid AND t.memberid = m.memberid and m.memberid = o.memberid AND o.symbol = s.symbol", name)
+
+  shared_data = []
+  for result in cursor:
+    shared_data.append(result)  # can also be accessed using result[0]
   cursor.close()
 
   #
@@ -153,7 +164,7 @@ def index():
   #     <div>{{n}}</div>
   #     {% endfor %}
   #
-  context = dict(data = names, login = name)
+  context = dict(data = names, shared_dat = shared_data, login = name)
 
   #
   # render_template looks in the templates/ folder for files.
@@ -174,27 +185,119 @@ def another():
   return render_template("anotherfile.html")
 
 
+
 # Example of adding new data to the database
 @app.route('/add', methods=['POST'])
 def add():
-  name = request.form['name']
-  print(name)
-  cmd = 'INSERT INTO test(name) VALUES (:name1), (:name2)';
-  g.conn.execute(text(cmd), name1 = name, name2 = name);
+  memberid = request.form['memberid']
+  print(memberid)
+  cmd = 'INSERT INTO tracks VALUES (1, :memberid1)';
+  g.conn.execute(text(cmd), memberid1 = memberid);
   return redirect('/')
 
 
 @app.route('/login')
 def login():
-    print("login")
-    return render_template("login.html")
-    pass
 
-    """
-    abort(401)
-    this_is_never_executed()
-    """
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
+        user = g.conn.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('login.html') 
+    
+
+    
+
+    
+"""
+
+@app.route('/register', methods=('GET', 'POST'))
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+        age = request.form['age']
+        occupation = request.form['occupation']
+        zipcode = request.form['zipcode']
+
+
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+        elif not firstname:
+            error = 'First Name is required.'
+        elif not lastname:
+            error = 'Last Name is required'
+        elif not age:
+            error = 'Age is required'
+        elif not age.isdigit():
+            error = 'Age must be an integer'
+        elif not occupation:
+            error = 'Occupation is required'
+        elif not zipcode:
+            error = 'Zipcode is required'
+        elif not zipcode.isdigit():
+            error = 'Zipcode must be an integer'
+
+        if error is None:
+            try:
+                g.conn.execute(
+                    "INSERT INTO user (username, password, firstname, lastname, age, occupation, zipcode) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    (username, generate_password_hash(password), firstname, lastname, int(age), occupation, int(zipcode)),
+                )
+                
+            except g.IntegrityError:
+                error = f"User {username} is already registered."
+            else:
+                return redirect(url_for("auth.login"))
+
+        flash(error)
+
+    return render_template('auth/register.html')
+
+@app.route('/login', methods=('GET', 'POST'))
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = g.conn.execute(
+            'SELECT * FROM user WHERE username = ?', (username,)
+        ).fetchone()
+
+        if user is None:
+            error = 'Incorrect username.'
+        elif not check_password_hash(user['password'], password):
+            error = 'Incorrect password.'
+
+        if error is None:
+            session.clear()
+            session['user_id'] = user['id']
+            return redirect(url_for('index'))
+
+        flash(error)
+
+    return render_template('auth/login.html') 
+"""
 
 
 if __name__ == "__main__":

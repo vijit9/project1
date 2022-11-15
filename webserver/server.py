@@ -182,7 +182,19 @@ def index():
 #
 @app.route('/another')
 def another():
-  return render_template("anotherfile.html")
+
+  name = "vijit9@gmail.com"
+
+  cursor = g.conn.execute("SELECT * FROM users u")
+
+  names = []
+  for result in cursor:
+    names.append(result)  # can also be accessed using result[0]
+  cursor.close()
+
+  context = dict(data = names, login = name)
+
+  return render_template("anotherfile.html", **context)
 
 
 
@@ -194,6 +206,8 @@ def add():
   cmd = 'INSERT INTO tracks VALUES (1, :memberid1)';
   g.conn.execute(text(cmd), memberid1 = memberid);
   return redirect('/')
+
+
 
 
 @app.route('/login')
